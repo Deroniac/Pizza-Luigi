@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class IndexServlet
  */
-@WebServlet("/index.htm")
+@WebServlet(urlPatterns = "/index.htm", name = "indexservlet")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/index.jsp";
@@ -32,6 +32,7 @@ public class IndexServlet extends HttpServlet {
 			request.setAttribute("zaakvoerder", new Persoon("Luigi", "Peperone", 7, true,
 					new Adres("Grote Markt", "3", 9700, "Oudenaarde")));
 			request.getRequestDispatcher(VIEW).forward(request, response);
+			request.setAttribute("emailAdresWebMaster", this.getInitParameter("emailAdresWebMaster"));
 			
 	}
 }

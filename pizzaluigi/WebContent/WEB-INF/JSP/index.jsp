@@ -22,5 +22,7 @@
 			<dd>${zaakvoerder.adres.straat} ${zaakvoerder.adres.huisNr}<br>
 				${zaakvoerder.adres.postcode} ${zaakvoerder.adres.gemeente}</dd>
 		</dl>
+		<div>Webmaster:
+		<a href='mailto:${emailAdresWebMaster}'>${emailAdresWebMaster}</a></div>
 	</body>
 </html>
