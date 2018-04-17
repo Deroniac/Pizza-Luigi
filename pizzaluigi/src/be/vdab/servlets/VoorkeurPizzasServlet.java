@@ -1,9 +1,8 @@
 package be.vdab.servlets;
 
-import be.vdab.repositories.PizzaRepository;
-
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,25 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import be.vdab.repositories.PizzaRepository;
+
 /**
- * Servlet implementation class PizzasServlet
+ * Servlet implementation class VoorkeurPizzasServlet
  */
-@WebServlet("/pizzas.htm")
-public class PizzasServlet extends HttpServlet {
+@WebServlet("/VoorkeurPizzasServlet")
+public class VoorkeurPizzasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VIEW = "/WEB-INF/JSP/pizzas.jsp";
-	private static final String PIZZAS_REQUESTS = "pizzasRequests";
+	private static final String VIEW = "/WEB-INF/JSP/voorkeurpizzas.jsp";
 	private final PizzaRepository pizzaRepository = new PizzaRepository();
-	
-	@Override
-	public void init() throws ServletException {
-		this.getServletContext().setAttribute(PIZZAS_REQUESTS, new AtomicInteger());
-		}
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PizzasServlet() {
+    public VoorkeurPizzasServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,12 +32,18 @@ public class PizzasServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		((AtomicInteger) this.getServletContext().getAttribute(PIZZAS_REQUESTS)).incrementAndGet();
 		request.setAttribute("pizzas", pizzaRepository.findAll());
+		if (request.getParameterValues("id") != null) {
+			request.setAttribute("voorkeurPizzas", Arrays.stream(request.getParameterValues("id"))
+														 .map(id -> pizzaRepository.read(Long.parseLong(id)))
+														 .filter(optionalPizza -> optionalPizza.isPresent())
+														 .map(optionalPizza -> optionalPizza.get())
+														 .collect(Collectors.toList()));
+		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
+
 
 }
