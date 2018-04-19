@@ -17,7 +17,7 @@ import be.vdab.util.StringUtils;
 /**
  * Servlet implementation class PizzasTussenPrijzenServlet
  */
-@WebServlet("/PizzasTussenPrijzenServlet")
+@WebServlet("/pizzas/tussenprijzen.htm")
 public class PizzasTussenPrijzenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/pizzastussenprijzen.jsp";
@@ -34,6 +34,7 @@ public class PizzasTussenPrijzenServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if (request.getQueryString() != null) {

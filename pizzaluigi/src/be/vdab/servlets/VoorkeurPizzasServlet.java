@@ -15,7 +15,7 @@ import be.vdab.repositories.PizzaRepository;
 /**
  * Servlet implementation class VoorkeurPizzasServlet
  */
-@WebServlet("/VoorkeurPizzasServlet")
+@WebServlet("/pizzas/voorkeuren.htm")
 public class VoorkeurPizzasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/voorkeurpizzas.jsp";

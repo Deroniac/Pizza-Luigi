@@ -1,9 +1,14 @@
 package be.vdab.servlets;
 
+import be.vdab.entities.Pizza;
 import be.vdab.repositories.PizzaRepository;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +25,12 @@ public class PizzasServlet extends HttpServlet {
 	private static final String VIEW = "/WEB-INF/JSP/pizzas.jsp";
 	private static final String PIZZAS_REQUESTS = "pizzasRequests";
 	private final PizzaRepository pizzaRepository = new PizzaRepository();
+	private String pizzaFotosPad;
 	
 	@Override
 	public void init() throws ServletException {
 		this.getServletContext().setAttribute(PIZZAS_REQUESTS, new AtomicInteger());
+		pizzaFotosPad = this.getServletContext().getRealPath("/pizzafotos");
 		}
        
     /**
@@ -33,16 +40,21 @@ public class PizzasServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
 
-	/**
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		((AtomicInteger) this.getServletContext().getAttribute(PIZZAS_REQUESTS)).incrementAndGet();
-		request.setAttribute("pizzas", pizzaRepository.findAll());
+    	((AtomicInteger) this.getServletContext().getAttribute(PIZZAS_REQUESTS)).incrementAndGet();
+		List<Pizza> pizzas = pizzaRepository.findAll();
+		request.setAttribute("pizzas", pizzas);
+		request.setAttribute("pizzaIdsMetFoto", pizzas.stream()
+													  .filter(pizza -> Files.exists(Paths.get(pizzaFotosPad, pizza.getId() + ".jpg")))
+													  .map(pizza -> pizza.getId())
+													  .collect(Collectors.toList()));
 		request.getRequestDispatcher(VIEW).forward(request, response);
-	}
-
+    }
 }
