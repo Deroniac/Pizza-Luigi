@@ -1,12 +1,9 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,7 +51,7 @@ public class IdentificatieServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("gebruikersnaam", request.getParameter("gebruikersnaam"));
 		//redirect naar huidige URL
-		response.sendRedirect(response.encodeRedirectUrl(request.getRequestURI()));
+		response.sendRedirect(response.encodeRedirectURL(request.getRequestURI()));
 	}
 
 }

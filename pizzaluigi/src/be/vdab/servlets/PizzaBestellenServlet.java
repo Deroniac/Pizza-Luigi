@@ -72,7 +72,7 @@ public class PizzaBestellenServlet extends HttpServlet {
 				  .collect(Collectors.toSet()));
 			session.setAttribute(MANDJE, mandje);
 		}
-		response.sendRedirect(response.encodeRedirectUrl(request.getRequestURI()));
+		response.sendRedirect(response.encodeRedirectURL(request.getRequestURI()));
 	}
 
 }
